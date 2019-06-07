@@ -9,6 +9,7 @@ class Person:
 
 class Author(Person):
     def __init__(self, name):
+        self.booksWritten = []
         super().__init__(name)
 
 class Customer(Person):
@@ -34,8 +35,16 @@ class BookItem:
         self.book = book
 
 class Catalog:
-    def __init__(self,books):
-        self.books = books
+    def __init__(self):
+        self.books = []
+    
+    def search(self, value):
+        for items in self.books:
+            if value == items.title:
+                print(items.author.name)
+            elif value == items.author:
+                pass
+            
 
 
 #loaning
@@ -49,12 +58,13 @@ class LoanItem:
 
 
 
-test = []
+catalog = Catalog()
 booksset1 = json.load(open('booksset1.json', 'r'))
 for books in booksset1:
     books = Book(books['author'], books['country'], books['imageLink'], books['language'], books['link'], books['pages'], books['title'], books['year'])
-    test.append(books)
+    catalog.books.append(books)
 
 #initializing the PLS
-catalog = Catalog(test)
-print(catalog.books[30].author.name)
+# for items in catalog.books:
+#     print(items.title)
+print(catalog.search('The Man Without Qualities'))
