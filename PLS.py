@@ -1,5 +1,6 @@
 import random
 import json
+import csv
 
 #people
 class Person:
@@ -13,9 +14,18 @@ class Author(Person):
         super().__init__(name)
 
 class Customer(Person):
-    def __init__(self):
-        pass
-
+    def __init__(self, number, gender, nameSet, givenName, surName, streetAddress, zipCode, city, emailAddress, username, telephoneNumber):
+        self.number = number
+        self.gender = gender
+        self.nameSet = nameSet
+        self.givenName = givenName
+        self.surName = surName
+        self.streetAddress = streetAddress
+        self.zipCode = zipCode
+        self.city = city
+        self.emailAddress = emailAddress
+        self.username = username
+        self.telephoneNumber = telephoneNumber
 
 #books
 class Book:
@@ -50,7 +60,7 @@ class Catalog:
 #loaning
 class LoanAdministration:
     def __init__(self):
-        pass
+        self.allCustomers = []
 
 class LoanItem:
     def __init__(self):
@@ -59,12 +69,21 @@ class LoanItem:
 
 
 catalog = Catalog()
+loan_administration = LoanAdministration()
 booksset1 = json.load(open('booksset1.json', 'r'))
+FakeNameSet20 = csv.reader(open('FakeNameSet20.csv', 'r'), delimiter=',')
+
+# next skipped de eerste rij in csv file wat namelijk de header van elke kolom is
+next(FakeNameSet20)
 for books in booksset1:
     books = Book(books['author'], books['country'], books['imageLink'], books['language'], books['link'], books['pages'], books['title'], books['year'])
     catalog.books.append(books)
 
+for people in FakeNameSet20:
+    customer = Customer(people[0],people[1], people[2], people[3], people[4], people[5], people[6], people[7], people[8], people[9], people[10])
+    loan_administration.allCustomers.append(customer)
+
 #initializing the PLS
 # for items in catalog.books:
 #     print(items.title)
-print(catalog.search('The Man Without Qualities'))
+print(loan_administration.allCustomers[0].city)
