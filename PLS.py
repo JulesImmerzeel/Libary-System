@@ -17,14 +17,16 @@ class Customer(Person):
         self.number = number
         self.gender = gender
         self.nameSet = nameSet
-        self.givenName = givenName
-        self.surName = surName
+        #self.givenName = givenName
+        #self.surName = surName
         self.streetAddress = streetAddress
         self.zipCode = zipCode
         self.city = city
         self.emailAddress = emailAddress
         self.username = username
         self.telephoneNumber = telephoneNumber
+        super().__init__(givenName+""+surName)
+
 
 #books
 class Book:
@@ -52,14 +54,13 @@ class Catalog:
             if value == items.title:
                 print(items.author.name)
             elif value == items.author:
-                pass
-            
-
+                pass            
 
 #loaning
 class LoanAdministration:
     def __init__(self):
         self.allCustomers = []
+        self.allBookitems = []
 
 class LoanItem:
     def __init__(self):
@@ -83,6 +84,6 @@ for people in FakeNameSet20:
     loan_administration.allCustomers.append(customer)
 
 #initializing the PLS
-# for items in catalog.books:
-#     print(items.title)
-print(loan_administration.allCustomers[0].city)
+#for items in catalog.books:
+#    print(items.title)
+#print(loan_administration.allCustomers[0].city)
