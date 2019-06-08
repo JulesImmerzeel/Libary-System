@@ -28,9 +28,8 @@ class Customer(Person):
         super().__init__(givenName+" "+surName)
 
 
-    def loanBook(bookItem):
-        def __init__(self, book):
-            self.book = book
+    def loanBook(self,bookItem):
+        pass
 
 
     
@@ -46,23 +45,48 @@ class Book:
         self.pages = pages
         self.title = title
         self.year = year
+        self.copies = []
+    
+    def addCopy(self):
+        self.copies.append(BookItem(self,False))
+    
+    def getAvailable(self):
+        i = 0
+        a = 0 #the amount of available copies
+        while (i < len(self.copies)):
+            if self.copies[i].loaned == False:
+                a += 1
+            i += 1
+        return a
+    
+    def getTotalCopies(self):
+        return len(self.copies)
+
 
 # copies is het aantal exemplaren dat in de catlog zijn van een boek
-class BookItem(Book):
-    def __init__(self, author, country, imageLink, language, link, pages, title, year):
-        self.copies = random.randint(1, 4)
-        super().__init__(author,country,imageLink, language, link, pages, title, year)
+class BookItem:
+    def __init__(self,book,loaned):
+        self.book = book
+        self.loaned = loaned #of het wel of niet uigeleend is
 
 class Catalog:
     def __init__(self):
         self.books = []
     
     def search(self, value):
+        bookList = []
         for items in self.books:
-            if value == items.title:
-                print(items.author.name)
-            elif value == items.author:
-                pass            
+            if value.lower() == items.title.lower():
+                bookList.append(items)
+            elif value.lower() == items.author.name.lower():
+                bookList.append(items)
+            elif value.lower() == items.country.lower():
+                bookList.append(items)
+            elif value.lower() == items.language.lower():
+                bookList.append(items)
+            elif str(value.lower()) == str(items.year):
+                bookList.append(items)
+        return bookList
 
 #loaning
 class LoanAdministration:
@@ -84,7 +108,11 @@ FakeNameSet20 = csv.reader(open('FakeNameSet20.csv', 'r'), delimiter=',')
 # next skipped de eerste rij in csv file wat namelijk de header van elke kolom is
 next(FakeNameSet20)
 for books in booksset1:
-    books = BookItem(books['author'], books['country'], books['imageLink'], books['language'], books['link'], books['pages'], books['title'], books['year'])
+    books = Book(books['author'], books['country'], books['imageLink'], books['language'], books['link'], books['pages'], books['title'], books['year'])
+    i = random.randint(1,4)
+    while i > 0:
+        books.addCopy()
+        i-=1
     catalog.books.append(books)
 
 for people in FakeNameSet20:
@@ -94,4 +122,14 @@ for people in FakeNameSet20:
 #initializing the PLS
 # for items in catalog.books:
 #     print(items.title)
-print(catalog.books[10].copies)
+#print(catalog.books[8])
+#print(catalog.books[8].copies)
+#print(catalog.books[8].copies[randint(0,len(catalog.books[10].copies)-1)].book.title)
+#print(catalog.books[8].copies[0].book.title)
+#print(catalog.books[8].copies[0].loaned)
+
+for i in catalog.books:
+    print(str(i.title)+" has "+str(i.getAvailable())+" copies available")
+
+print(catalog.search("to the lighthouse")[0].title)
+print(catalog.search("to the lighthouse")[0].author.name)
