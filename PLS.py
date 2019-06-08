@@ -6,7 +6,6 @@ import csv
 class Person:
     def __init__(self,name):
         self.name = name
-        self.books = []
 
 class Author(Person):
     def __init__(self, name):
