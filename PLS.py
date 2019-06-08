@@ -25,7 +25,7 @@ class Customer(Person):
         self.emailAddress = emailAddress
         self.username = username
         self.telephoneNumber = telephoneNumber
-        super().__init__(givenName+""+surName)
+        super().__init__(givenName+" "+surName)
 
 
 #books
@@ -87,3 +87,4 @@ for people in FakeNameSet20:
 #for items in catalog.books:
 #    print(items.title)
 #print(loan_administration.allCustomers[0].city)
+print(loan_administration.allCustomers[3].name)
