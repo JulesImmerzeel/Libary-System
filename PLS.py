@@ -28,6 +28,13 @@ class Customer(Person):
         super().__init__(givenName+" "+surName)
 
 
+    def loanBook(bookItem):
+        def __init__(self, book):
+            self.book = book
+
+
+    
+
 #books
 class Book:
     def __init__(self,author,country,imageLink, language, link, pages, title, year):
@@ -40,10 +47,11 @@ class Book:
         self.title = title
         self.year = year
 
-
-class BookItem:
-    def __init__(self,book):
-        self.book = book
+# copies is het aantal exemplaren dat in de catlog zijn van een boek
+class BookItem(Book):
+    def __init__(self, author, country, imageLink, language, link, pages, title, year):
+        self.copies = random.randint(1, 4)
+        super().__init__(author,country,imageLink, language, link, pages, title, year)
 
 class Catalog:
     def __init__(self):
@@ -76,7 +84,7 @@ FakeNameSet20 = csv.reader(open('FakeNameSet20.csv', 'r'), delimiter=',')
 # next skipped de eerste rij in csv file wat namelijk de header van elke kolom is
 next(FakeNameSet20)
 for books in booksset1:
-    books = Book(books['author'], books['country'], books['imageLink'], books['language'], books['link'], books['pages'], books['title'], books['year'])
+    books = BookItem(books['author'], books['country'], books['imageLink'], books['language'], books['link'], books['pages'], books['title'], books['year'])
     catalog.books.append(books)
 
 for people in FakeNameSet20:
@@ -84,7 +92,6 @@ for people in FakeNameSet20:
     loan_administration.allCustomers.append(customer)
 
 #initializing the PLS
-#for items in catalog.books:
-#    print(items.title)
-#print(loan_administration.allCustomers[0].city)
-print(loan_administration.allCustomers[3].name)
+# for items in catalog.books:
+#     print(items.title)
+print(catalog.books[10].copies)
