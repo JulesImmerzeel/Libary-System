@@ -63,6 +63,8 @@ class Book:
         return len(self.copies)
 
 
+
+
 # copies is het aantal exemplaren dat in de catlog zijn van een boek
 class BookItem:
     def __init__(self,book,loaned):
@@ -73,20 +75,25 @@ class Catalog:
     def __init__(self):
         self.books = []
     
-    def search(self, value):
+    def search(self, *value):
         bookList = []
-        for items in self.books:
-            if value.lower() == items.title.lower():
-                bookList.append(items)
-            elif value.lower() == items.author.name.lower():
-                bookList.append(items)
-            elif value.lower() == items.country.lower():
-                bookList.append(items)
-            elif value.lower() == items.language.lower():
-                bookList.append(items)
-            elif str(value.lower()) == str(items.year):
-                bookList.append(items)
-        return bookList
+        for value in value:
+            for items in self.books:
+                if value.lower() == items.title.lower():
+                    bookList.append(items)
+                elif value.lower() == items.author.name.lower():
+                    bookList.append(items)
+                elif value.lower() == items.country.lower():
+                    bookList.append(items)
+                elif value.lower() == items.language.lower():
+                    bookList.append(items)
+                elif str(value.lower()) == str(items.year):
+                    bookList.append(items)
+        bookset = list(set(bookList)) #bookset is is een set en sets dit zorgd voor geen dubble zoekresultaten bij meerdere zoek waarde
+        for items in bookset:
+            print("\nTitle: " + items.title + "\nAuthor: " + items.author.name + "\nLanguage: " + items.language + "\nYear " + str(items.year) + "\nPages: " + str(items.pages) + "\nAvailable copies: " + str(items.getTotalCopies()))
+
+        
 
 #loaning
 class LoanAdministration:
@@ -128,8 +135,9 @@ for people in FakeNameSet20:
 #print(catalog.books[8].copies[0].book.title)
 #print(catalog.books[8].copies[0].loaned)
 
-for i in catalog.books:
-    print(str(i.title)+" has "+str(i.getAvailable())+" copies available")
+# for i in catalog.books:
+#     print(str(i.title)+" has "+str(i.getAvailable())+" copies available")
 
-print(catalog.search("to the lighthouse")[0].title)
-print(catalog.search("to the lighthouse")[0].author.name)
+catalog.search("English", "Russian")
+# print(catalog.search("to the lighthouse")[0].author.name)
+
