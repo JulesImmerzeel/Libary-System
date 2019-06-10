@@ -28,9 +28,17 @@ class Customer(Person):
         super().__init__(givenName+" "+surName)
 
 
-    def loanBook(self,bookItem):
-        pass
+    def loanBook(self, Book):
 
+        if Book.getAvailable() > 0:
+            for books in Book.copies:
+                if books.loaned == False:
+                    books.loaned = True
+                    loan_administration.allLoanedItems.append(LoanItem(self.name, books))
+                    print("Dear " + self.name + ", \nYou loaned: \nTitle: " + Book.title + "\nAuthor: " + Book.author.name + "\nLanguage: " + Book.language + "\nYear " + str(Book.year) + "\nPages: " + str(Book.pages))
+                    break
+        else:
+            print('all copies are loaned out')
 
     
 
@@ -46,7 +54,7 @@ class Book:
         self.title = title
         self.year = year
         self.copies = []
-    
+    #function to add bookItems
     def addCopy(self):
         self.copies.append(BookItem(self,False))
     
@@ -62,10 +70,6 @@ class Book:
     def getTotalCopies(self):
         return len(self.copies)
 
-
-
-
-# copies is het aantal exemplaren dat in de catlog zijn van een boek
 class BookItem:
     def __init__(self,book,loaned):
         self.book = book
@@ -74,7 +78,7 @@ class BookItem:
 class Catalog:
     def __init__(self):
         self.books = []
-    
+    # searching in catalog
     def search(self, *value):
         bookList = []
         for value in value:
@@ -100,20 +104,29 @@ class LoanAdministration:
     def __init__(self):
         self.allCustomers = []
         self.allBookitems = []
-
+        self.allLoanedItems = []
+    
+    def addNewCustomer(self, number, gender, nameSet, givenName, surName, streetAddress, zipCode, city, emailAddress, username, telephoneNumber):
+        return self.allCustomers.append(Customer(number, gender, nameSet, givenName, surName, streetAddress, zipCode, city, emailAddress, username, telephoneNumber))
 class LoanItem:
-    def __init__(self):
-        pass
+    def __init__(self, customer, bookItem):
+            self.customer = customer
+           
+            self.bookItem = bookItem
 
 
 
 catalog = Catalog()
 loan_administration = LoanAdministration()
+# filling with books
 booksset1 = json.load(open('booksset1.json', 'r'))
+# filling with customers
 FakeNameSet20 = csv.reader(open('FakeNameSet20.csv', 'r'), delimiter=',')
 
 # next skipped de eerste rij in csv file wat namelijk de header van elke kolom is
 next(FakeNameSet20)
+
+# adding books
 for books in booksset1:
     books = Book(books['author'], books['country'], books['imageLink'], books['language'], books['link'], books['pages'], books['title'], books['year'])
     i = random.randint(1,4)
@@ -122,22 +135,24 @@ for books in booksset1:
         i-=1
     catalog.books.append(books)
 
+# adding customers
 for people in FakeNameSet20:
-    customer = Customer(people[0],people[1], people[2], people[3], people[4], people[5], people[6], people[7], people[8], people[9], people[10])
-    loan_administration.allCustomers.append(customer)
+    loan_administration.addNewCustomer(people[0],people[1], people[2], people[3], people[4], people[5], people[6], people[7], people[8], people[9], people[10])
 
-#initializing the PLS
-# for items in catalog.books:
-#     print(items.title)
-#print(catalog.books[8])
-#print(catalog.books[8].copies)
-#print(catalog.books[8].copies[randint(0,len(catalog.books[10].copies)-1)].book.title)
-#print(catalog.books[8].copies[0].book.title)
-#print(catalog.books[8].copies[0].loaned)
 
-# for i in catalog.books:
-#     print(str(i.title)+" has "+str(i.getAvailable())+" copies available")
-
-catalog.search("English", "Russian")
-# print(catalog.search("to the lighthouse")[0].author.name)
-
+print(catalog.books[10].getAvailable())
+loan_administration.allCustomers[10].loanBook(catalog.books[10])
+print(loan_administration.allLoanedItems)
+print(catalog.books[10].getAvailable())
+loan_administration.allCustomers[10].loanBook(catalog.books[10])
+print(loan_administration.allLoanedItems)
+print(catalog.books[10].getAvailable())
+loan_administration.allCustomers[10].loanBook(catalog.books[10])
+print(loan_administration.allLoanedItems)
+print(catalog.books[10].getAvailable())
+loan_administration.allCustomers[10].loanBook(catalog.books[10])
+print(loan_administration.allLoanedItems)
+print(catalog.books[10].getAvailable())
+loan_administration.allCustomers[10].loanBook(catalog.books[10])
+print(loan_administration.allLoanedItems)
+print(catalog.books[10].getAvailable())
