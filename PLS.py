@@ -37,6 +37,17 @@ class Customer(Person):
         else:
             print('all copies are loaned out')
 
+    def loanBook(self, Book):
+
+        if Book.getAvailable() > 0:
+            for books in Book.copies:
+                if books.loaned == False:
+                    books.loaned = True
+                    loan_administration.allLoanedItems.append(LoanItem(self.name, books))
+                    print("\nDear " + self.name + ", \nYou loaned: \nTitle: " + Book.title + "\nAuthor: " + Book.author.name + "\nLanguage: " + Book.language + "\nYear " + str(Book.year) + "\nPages: " + str(Book.pages))
+                    break
+        else:
+            print('all copies are loaned out')
 
 
 #books
@@ -186,5 +197,5 @@ loan_administration.makeBackup()
 print(loan_administration.allLoanedItems)
 loan_administration.restoreFromBackup()
 print(loan_administration.allLoanedItems)
-loan_administration.allCustomers['Valentin Bosgra'].returnBook(catalog.books['Fairy tales'])
+
 print(loan_administration.allLoanedItems)
