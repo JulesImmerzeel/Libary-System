@@ -48,6 +48,13 @@ class Customer(Person):
                     break
         else:
             print('all copies are loaned out')
+    
+    def returnBook(self,loanItem):
+        for item in loan_administration.allLoanedItems:
+            if item == loanItem:
+                loanItem.bookItem.loaned = False
+                loan_administration.allLoanedItems.remove(loanItem)
+                break
 
 
 #books
@@ -150,7 +157,7 @@ class LoanAdministration:
         
         catalog.books.clear()
         for items in backupFile[1]:
-            book = Book(Author(items['author']), items['country'], items['imageLink'], items['language'], items['link'], items['pages'], items['title'], items['year'])
+            book = Book(items['author'], items['country'], items['imageLink'], items['language'], items['link'], items['pages'], items['title'], items['year'])
             catalog.books[items["title"]] = book
         
             i = items['copies']
