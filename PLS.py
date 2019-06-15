@@ -60,7 +60,11 @@ class Customer(Person):
 #books
 class Book:
     def __init__(self,author,country,imageLink, language, link, pages, title, year):
-        self.author = Author(author)
+        if author in catalog.authors:
+            self.author = catalog.authors[author]
+        else:
+            self.author = Author(author)
+            catalog.authors[author] = self.author
         self.country = country
         self.imageLink = imageLink
         self.language = language
@@ -93,6 +97,7 @@ class BookItem:
 class Catalog:
     def __init__(self):
         self.books = {}
+        self.authors = {}
     # searching in catalog
     def search(self, *value):
         bookList = []
