@@ -102,19 +102,20 @@ class Catalog:
     def search(self, *value):
         bookList = []
         for value in value:
+            value = str(value)
             for items in self.books.values():
-                if value.lower() == items.title.lower():
+                if value.lower() in items.title.lower():
                     bookList.append(items)
-                elif value.lower() == items.author.name.lower():
+                elif value.lower() in items.author.name.lower():
                     bookList.append(items)
-                elif value.lower() == items.country.lower():
+                elif value.lower() in items.country.lower():
                     bookList.append(items)
-                elif value.lower() == items.language.lower():
+                elif value.lower() in items.language.lower():
                     bookList.append(items)
-                elif str(value.lower()) == str(items.year):
+                elif value.lower() == items.year:
                     bookList.append(items)
-        bookset = list(set(bookList)) #bookset is is een set en sets dit zorgd voor geen dubble zoekresultaten bij meerdere zoek waarde
-        for items in bookset:
+        bookList = list(set(bookList)) #bookset is is een set en sets dit zorgd voor geen dubble zoekresultaten bij meerdere zoek waarde
+        for items in bookList:
             print("\nTitle: " + items.title + "\nAuthor: " + items.author.name + "\nLanguage: " + items.language + "\nYear " + str(items.year) + "\nPages: " + str(items.pages) + "\nAvailable copies: " + str(items.getTotalCopies()))
 
         
