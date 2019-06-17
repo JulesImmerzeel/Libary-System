@@ -23,6 +23,7 @@ class Customer(Person):
         self.emailAddress = emailAddress
         self.username = username
         self.telephoneNumber = telephoneNumber
+        self.myLoans = []
         super().__init__(givenName+" "+surName)
 
 
@@ -32,12 +33,14 @@ class Customer(Person):
                 if books.loaned == False:
                     books.loaned = True
                     loan_administration.allLoanedItems.append(LoanItem(self.name, books))
+                    self.myLoans.append(books)
                     print("Dear " + self.name + ", \nYou loaned: \nTitle: " + Book.title + "\nAuthor: " + Book.author.name + "\nLanguage: " + Book.language + "\nYear " + str(Book.year) + "\nPages: " + str(Book.pages))
                     break
         else:
             print('all copies are loaned out')
     
     def returnBook(self,loanItem):
+        self.myLoans.remove(loanItem)
         for item in loan_administration.allLoanedItems:
             if item == loanItem:
                 loanItem.bookItem.loaned = False
