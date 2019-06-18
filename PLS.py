@@ -37,25 +37,6 @@ class Customer(Person):
         else:
             print('all copies are loaned out')
 
-    def loanBook(self, Book):
-
-        if Book.getAvailable() > 0:
-            for books in Book.copies:
-                if books.loaned == False:
-                    books.loaned = True
-                    loan_administration.allLoanedItems.append(LoanItem(self.name, books))
-                    print("\nDear " + self.name + ", \nYou loaned: \nTitle: " + Book.title + "\nAuthor: " + Book.author.name + "\nLanguage: " + Book.language + "\nYear " + str(Book.year) + "\nPages: " + str(Book.pages))
-                    break
-        else:
-            print('all copies are loaned out')
-    
-    def returnBook(self,loanItem):
-        for item in loan_administration.allLoanedItems:
-            if item == loanItem:
-                loanItem.bookItem.loaned = False
-                loan_administration.allLoanedItems.remove(loanItem)
-                break
-
 
 #books
 class Book:
